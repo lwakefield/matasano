@@ -18,19 +18,29 @@ func main() {
         m[score] = string(decrypted)
     }
     process_results(m)
+    results := process_results(m)
+    fmt.Println("\nShowing the top 5% results")
+    fmt.Println("==========================\n")
+    i := 0
+    for _, result := range results {
+        fmt.Println(result)
+        if (i > len(results) / 20) {
+            break
+        }
+        i++
+    }
 }
 
-func process_results(m map[float64]string) map[float64]string{
+func process_results(m map[float64]string) []string{
     var keys []float64
     for i := range m {
         keys = append(keys, i)
     }
     sort.Float64s(keys)
-    sorted := make(map[float64]string)
+    var sorted []string
     for _,i := range keys {
         if !math.IsNaN(i) {
-            fmt.Println(m[i])
-            sorted[i] = m[i]
+            sorted = append(sorted, m[i])
         }
     }
     return sorted
