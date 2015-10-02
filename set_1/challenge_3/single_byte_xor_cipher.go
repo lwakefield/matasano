@@ -7,10 +7,14 @@ import (
     "strings"
     "math"
     "sort"
+    "io/ioutil"
 )
 
 func main() {
-    a, _ := hex.DecodeString(os.Args[1])
+    in, _ := ioutil.ReadAll(os.Stdin)
+
+    a, _ := hex.DecodeString(strings.TrimSpace(string(in)))
+    fmt.Println(in)
     m := make(map[float64]string)
     for i := 0; i < 256; i++ {
         decrypted := attempt(byte(i), a)
