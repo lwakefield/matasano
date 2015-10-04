@@ -1,7 +1,5 @@
 #!/usr/bin/ruby
 
-require 'facets'
-
 def decode_hex(hex_digest)
     return [hex_digest.strip].pack('H*')
 end
