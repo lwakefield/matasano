@@ -1,9 +1,13 @@
 #!/usr/bin/ruby
 
 require_relative 'crypto'
+require_relative 'datum'
 
 while a = gets
     inputs = a.split('^')
-    puts Crypto.xor_hex_strings(inputs[0], inputs[1])
+    a = Datum.make_from_hex inputs[0]
+    b = Datum.make_from_hex inputs[1]
+    xored = Crypto.xor a, b
+    puts xored
 end
 

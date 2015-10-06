@@ -1,7 +1,8 @@
 #!/usr/bin/ruby
 
-require_relative 'crypto'
+require_relative 'datum'
 
 while a = gets
-    puts Crypto.encode_base64(Crypto.decode_hex(a))
+    d = Datum.make_from_hex a
+    puts d.to_base64
 end

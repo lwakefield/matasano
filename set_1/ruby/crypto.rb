@@ -1,33 +1,12 @@
 class Crypto
 
-    def self.decode_hex(hex_digest)
-        return [hex_digest.strip].pack('H*')
-    end
+    def self.xor(a, b)
+        a_bytes = a.to_bytes
+        b_bytes = b.to_bytes
+        raise "XOR inputs must have the same length" unless a_bytes.length == b_bytes.length
 
-    def self.encode_string_to_hex(plaintext)
-        return plaintext.bytes.map { |b| self.byte_to_hex_string(b) }.join
-    end
-
-    def self.encode_base64(plaintext)
-        return [plaintext].pack("m0")
-    end
-
-    def self.decode_base64(base64_digest)
-        return [base64_digest].unpack("m0")
-    end
-
-    def self.byte_to_hex_string(byte)
-        return sprintf("%02x", byte)
-    end
-
-    def self.xor_raw_strings(str_a, str_b)
-        return str_a.bytes.zip(str_b.bytes).map{ |a,b| sprintf("%02x", (a ^ b)) }.join
-    end
-
-    def self.xor_hex_strings(hex_a, hex_b)
-        str_a = self.decode_hex(hex_a)
-        str_b = self.decode_hex(hex_b)
-        return self.xor_raw_strings(str_a, str_b)
+        xored = a_bytes.zip(b_bytes).map {|i, j| i ^ j}
+        return Datum.make_from_bytes xored
     end
 
     def self.make_repeating_key(key, len)
