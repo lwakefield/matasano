@@ -15,9 +15,10 @@ class Crypto
     end
 
     def self.score_english(plaintext)
-        alpha_count = plaintext.scan(/[a-z]/i).size
-        score =  plaintext.scan(/[eaton shrldu]/i).size
-        return (alpha_count * score).to_f / plaintext.length
+        plaintext_str = plaintext.to_s
+        alpha_count = plaintext_str.scan(/[a-z]/i).size
+        score =  plaintext_str.scan(/[eaton shrldu]/i).size
+        return (alpha_count * score).to_f / plaintext_str.length
     end
 
     def self.hamming_distance(str_a, str_b)

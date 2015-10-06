@@ -1,18 +1,19 @@
 #!/usr/bin/ruby
 
 require_relative 'crypto'
+require_relative 'datum'
 
 top_score = 0
 top_soln = ''
-while hex_digest = gets
+while input = gets
+    cipher_text = Datum.make_from_hex input
     (0..255).each do |i|
-        key = Crypto.byte_to_hex_string(i) * (hex_digest.length / 2)
-        xored = Crypto.xor_hex_strings(hex_digest, key)
-        plaintext = Crypto.decode_hex(xored)
-        score = Crypto.score_english(plaintext)
+        key = Datum.make_from_bytes [i]*cipher_text.length
+        xored = Crypto.xor cipher_text, key
+        score = Crypto.score_english(xored)
         if score > top_score
             top_score = score
-            top_soln = plaintext
+            top_soln = xored
         end
     end
 end
