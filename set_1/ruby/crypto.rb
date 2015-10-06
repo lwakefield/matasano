@@ -1,3 +1,5 @@
+require_relative 'datum'
+
 class Crypto
 
     def self.xor(a, b)
@@ -7,11 +9,6 @@ class Crypto
 
         xored = a_bytes.zip(b_bytes).map {|i, j| i ^ j}
         return Datum.make_from_bytes xored
-    end
-
-    def self.make_repeating_key(key, len)
-        repeated_key = key * (len.to_f / key.length).ceil
-        return repeated_key.chars.first(len).join
     end
 
     def self.score_english(plaintext)
