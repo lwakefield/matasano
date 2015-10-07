@@ -1,7 +1,13 @@
 require_relative 'datum'
 require_relative 'util'
+require 'openssl'
 
 class Crypto
+
+    def self.detect_aes_ecb(ciphertext, size)
+        blocks = ciphertext.to_s.scan(/.{#{size}}/m)
+        return blocks.detect{ |e| blocks.count(e) > 1 }
+    end
 
     def self.xor(a, b)
         a_bytes = a.to_bytes
