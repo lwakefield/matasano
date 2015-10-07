@@ -59,6 +59,22 @@ class Crypto
         return xored.to_binary.scan(/[1]/).size
     end
 
+    def self.detect_single_byte_xor(cipher_texts)
+        top_score = 0
+        top_soln = ''
+        top_key = ''
+        cipher_texts.each do |cipher_text|
+            key, plaintext = Crypto.break_single_byte_xor cipher_text
+            score = Crypto.score_english(plaintext)
+            if score > top_score
+                top_score = score
+                top_soln = plaintext
+                top_key = key
+            end
+        end
+        return top_key, top_soln
+    end
+
     def self.break_single_byte_xor(cipher_text)
         top_score = 0
         top_soln = ''

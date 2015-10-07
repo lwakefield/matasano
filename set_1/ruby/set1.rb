@@ -23,4 +23,14 @@ class TestSetOne < Test::Unit::TestCase
         assert_equal plaintext.to_s, "Cooking MC's like a pound of bacon"
     end
 
+    def test_challenge_four
+        file = File.open('4.txt', 'r')
+        data = file.read
+        file.close
+
+        cipher_texts = data.split("\n").map{ |c| Datum.make_from_hex c }
+        _, plaintext = Crypto.detect_single_byte_xor cipher_texts
+        assert_equal plaintext.to_s, "Now that the party is jumping\n"
+    end
+
 end
