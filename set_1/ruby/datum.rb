@@ -1,3 +1,5 @@
+require 'matrix'
+
 class Datum
 
     def initialize(bytes)
@@ -20,6 +22,19 @@ class Datum
         return Datum.new str.unpack('m0').first.bytes
     end
 
+    def split_into_blocks(size)
+        blocks = @bytes.each_slice(size).to_a
+        return blocks.map { |b| Datum.make_from_bytes b}
+    end
+
+    def split_into_blocks_and_transpose(size)
+        target_size = size * (self.length.to_f / size).ceil
+        padded_bytes = @bytes + [0]*(target_size - self.length)
+        blocks = padded_bytes.each_slice(size).to_a
+        blocks = Matrix.rows(blocks).transpose.to_a
+        return blocks.map { |b| Datum.make_from_bytes b}
+    end
+
     def length
         return @bytes.length
     end
@@ -30,6 +45,10 @@ class Datum
 
     def to_s
         return @bytes.pack 'c*'
+    end
+
+    def to_binary
+        return @bytes.map{ |b| sprintf("%b", b) }.join
     end
 
     def to_hex
